@@ -2,21 +2,28 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'dagger.hilt.android.plugin'
+    id 'jacoco'
 }
 
 android {
-    compileSdkVersion 34
-    buildToolsVersion "30.0.3"
+    compileSdk 35
 
     defaultConfig {
-        applicationId "com.ctw.ctwpokedex"
-        minSdkVersion 33
-        targetSdkVersion 33
+        namespace "com.ctw.ctwpokedex"
+        applicationId = namespace
+        minSdkVersion 35
+        targetSdkVersion 35
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    hilt {
+        enableTransformForLocalTests = true
     }
 
     buildTypes {
@@ -33,33 +40,35 @@ android {
         jvmTarget = '17'
     }
 }
+
 dependencies {
 
     // Room runtime library
-    implementation "androidx.room:room-runtime:2.5.1"  // Or the latest stable version you need
+    implementation "androidx.room:room-runtime:2.6.1"  // Or the latest stable version you need
 
     // Room compiler for annotation processing (use kapt for Kotlin)
-    kapt "androidx.room:room-compiler:2.5.1"  // Use the same version as room-runtime
+    kapt "androidx.room:room-compiler:2.6.1"  // Use the same version as room-runtime
 
     // Room extension for coroutines (optional, for coroutine support)
-    implementation "androidx.room:room-ktx:2.5.1"  // Optional, for coroutine support
+    implementation "androidx.room:room-ktx:2.6.1"  // Optional, for coroutine support
 
     // Room RxJava2 integration
-    implementation "androidx.room:room-rxjava2:2.5.1"  // RxJava2 support
+    implementation "androidx.room:room-rxjava2:2.6.1"  // RxJava2 support
 
     // Room testing library (for unit tests and database tests)
-    testImplementation "androidx.room:room-testing:2.5.1"  // Testing support
+    testImplementation "androidx.room:room-testing:2.6.1"  // Testing support
 
+    //noinspection GradleDependency
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     // Ensure $kotlin_version is the latest (1.9.21)
 
-    implementation 'androidx.core:core-ktx:1.10.0' // Updated to the latest
-    implementation 'androidx.appcompat:appcompat:1.6.1' // Latest stable version
-    implementation 'com.google.android.material:material:1.9.0' // Latest stable version
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4' // Latest stable version
+    implementation 'androidx.core:core-ktx:1.15.0' // Updated to the latest
+    implementation 'androidx.appcompat:appcompat:1.7.0' // Latest stable version
+    implementation 'com.google.android.material:material:1.12.0' // Latest stable version
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0' // Latest stable version
     testImplementation 'junit:junit:4.13.2' // Latest stable version
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5' // Latest stable version
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1' // Latest stable version
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1' // Latest stable version
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1' // Latest stable version
     implementation "androidx.multidex:multidex:2.0.1" // No newer version available
 
 // Retrofit - https://github.com/square/retrofit
@@ -68,38 +77,49 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.10.0" // Latest stable version
 
 // Glide
-    implementation 'com.github.bumptech.glide:glide:4.15.0' // Latest stable version
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.0' // Latest stable version
+    implementation 'com.github.bumptech.glide:glide:4.15.1' // Latest stable version
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1' // Latest stable version
 
 // Rx
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1" // Latest stable version
 
 // LESSON 4
 // Activity KTX
-    implementation 'androidx.activity:activity-ktx:1.7.0' // Latest stable version
+    implementation 'androidx.activity:activity-ktx:1.10.0' // Latest stable version
 
 // Lottie
-    implementation 'com.airbnb.android:lottie:5.0.3' // Latest stable version
+    implementation 'com.airbnb.android:lottie:6.3.0' // Latest stable version
 
 // LESSON 5
 // Mockito
-    testImplementation "org.mockito:mockito-core:4.8.0" // Latest stable version
+    testImplementation "org.mockito:mockito-core:5.10.0" // Latest stable version
 
 // Core Test Library
-    testImplementation "androidx.test:core:1.6.0" // Latest stable version
-    implementation "androidx.arch.core:core-testing:2.1.0" // Latest stable version
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "androidx.test:core:1.6.1" // Latest stable version
+    implementation "androidx.arch.core:core-testing:2.2.0" // Latest stable version
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
     // Same version for testImplementation
 
 // JUnit Rules
-    testImplementation "androidx.test:rules:1.4.0" // Latest stable version
+    testImplementation "androidx.test:rules:1.6.1" // Latest stable version
 
 // UI Testing
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1' // Latest stable version
-    androidTestImplementation 'androidx.test:runner:1.5.0' // Latest stable version
-    androidTestImplementation 'androidx.test:rules:1.5.0' // Latest stable version
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1' // Latest stable version
+    androidTestImplementation 'androidx.test:runner:1.6.2' // Latest stable version
+    androidTestImplementation 'androidx.test:rules:1.6.1' // Latest stable version
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.6.1'
     // Latest stable version
-    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.3.0'
     // No newer version available
+
+    // Dagger-Hilt
+    implementation "com.google.dagger:hilt-android:2.50"  // Hilt Android
+    kapt "com.google.dagger:hilt-compiler:2.50"  // Hilt compiler
+
+    // Hilt in tests
+    androidTestImplementation "com.google.dagger:hilt-android-testing:2.50"  // Hilt for Android tests
+    testImplementation "com.google.dagger:hilt-android-testing:2.50"  // Hilt for local unit tests
+    kaptAndroidTest "com.google.dagger:hilt-compiler:2.50"  // Hilt compiler for test annotation processing
+
+
 }

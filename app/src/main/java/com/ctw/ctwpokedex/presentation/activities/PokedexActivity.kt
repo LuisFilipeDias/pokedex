@@ -94,6 +94,8 @@ class PokedexActivity : AppCompatActivity() {
                     errorView.visibility = View.GONE
                     progressBar.visibility = View.VISIBLE
                 }
+
+                else -> {}
             }
         })
         viewModel.fetchPokedex()
