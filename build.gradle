@@ -18,6 +18,10 @@ buildscript {
     }
 }
 
+plugins {
+    id("org.jetbrains.kotlinx.kover") version "0.9.1" // Use latest version
+}
+
 allprojects {
     repositories {
         google()

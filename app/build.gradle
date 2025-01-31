@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
     id 'jacoco'
+    id 'org.jetbrains.kotlinx.kover'
 }
 
 android {
@@ -30,6 +31,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
         }
     }
     compileOptions {
@@ -117,9 +121,46 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:2.50"  // Hilt compiler
 
     // Hilt in tests
-    androidTestImplementation "com.google.dagger:hilt-android-testing:2.50"  // Hilt for Android tests
+    androidTestImplementation "com.google.dagger:hilt-android-testing:2.50"
+    // Hilt for Android tests
     testImplementation "com.google.dagger:hilt-android-testing:2.50"  // Hilt for local unit tests
-    kaptAndroidTest "com.google.dagger:hilt-compiler:2.50"  // Hilt compiler for test annotation processing
+    kaptAndroidTest "com.google.dagger:hilt-compiler:2.50"
+    // Hilt compiler for test annotation processing
 
+    // Logs
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+}
 
+def excludes = [
+        '**/R.class',
+        '**/R$*.class',
+        '**/*$ViewInjector**.*',
+        '**/BuildConfig*.*',
+        '**/Manifest**.*',
+        '**/*Test**.*',
+        'android/**/**.*',
+]
+
+def includes = [
+        'com/ctw/ctwpokedex/**'
+]
+
+tasks.register('jacocoReport', JacocoReport) {
+    dependsOn "test"
+    reports {
+        html { enabled true }
+    }
+
+    // generated classes
+    classDirectories.from = fileTree(
+            dir: "$buildDir/intermediates/classes/debug",
+            excludes: excludes,
+            includes: includes
+    ) + fileTree(
+            dir: "$buildDir/tmp/kotlin-classes/debug",
+            excludes: excludes,
+            includes: includes
+    )
+
+    executionData.from = files("$buildDir/jacoco/testDebugUnitTest.exec")
 }
