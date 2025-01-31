@@ -1,6 +1,7 @@
 package com.ctw.ctwpokedex.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.ctw.ctwpokedex.domain.usecases.GetPreferencesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -9,7 +10,7 @@ class OnboardingViewModel @Inject constructor(
     private val getPreferencesUseCase: GetPreferencesUseCase
 ): ViewModel() {
 
-    fun setKeyAccessed() {
+    fun setUserLoggedIn() {
         getPreferencesUseCase[KEY_HAS_ACCESSED] = true
     }
 

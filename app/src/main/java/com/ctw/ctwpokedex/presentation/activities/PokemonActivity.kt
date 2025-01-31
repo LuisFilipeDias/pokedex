@@ -15,7 +15,9 @@ import com.ctw.ctwpokedex.presentation.UiState
 import com.ctw.ctwpokedex.presentation.activities.PokedexActivity.Companion.POKEMON_IMAGE_EXTRA
 import com.ctw.ctwpokedex.presentation.activities.PokedexActivity.Companion.POKEMON_NAME_EXTRA
 import com.ctw.ctwpokedex.presentation.viewmodel.PokemonViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PokemonActivity : AppCompatActivity() {
 
     private lateinit var pokemonName: TextView

@@ -1,4 +1,4 @@
-package com.ctw.ctwpokedex.presentation.viewmodel
+package com.ctw.ctwpokedex.domain.usecases
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -11,7 +11,6 @@ class GetPreferencesUseCase @Inject constructor(
     @ApplicationContext context: Context,
     private val sharedPreferences: SharedPreferences
 ) {
-
 
     operator fun <T> set(key: String, value: T) {
         with(sharedPreferences.edit()) {

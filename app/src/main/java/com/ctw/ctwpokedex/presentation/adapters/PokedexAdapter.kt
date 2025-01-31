@@ -8,12 +8,15 @@ import com.ctw.ctwpokedex.R
 import com.ctw.ctwpokedex.data.models.PokedexItem
 import com.ctw.ctwpokedex.presentation.activities.PokedexClickListener
 import com.ctw.ctwpokedex.presentation.viewholders.PokedexItemViewHolder
+import javax.inject.Inject
 
-class PokedexAdapter(private val clickListener: PokedexClickListener) : ListAdapter<PokedexItem, PokedexItemViewHolder>(PokemonItemDiffUtil()) {
+class PokedexAdapter @Inject constructor(private val clickListener: PokedexClickListener) :
+    ListAdapter<PokedexItem, PokedexItemViewHolder>(PokemonItemDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         PokedexItemViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.pokedex_item_view_holder, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.pokedex_item_view_holder, parent, false)
         )
 
     override fun onBindViewHolder(holder: PokedexItemViewHolder, position: Int) {

@@ -16,7 +16,9 @@ import com.ctw.ctwpokedex.R
 import com.ctw.ctwpokedex.presentation.UiState
 import com.ctw.ctwpokedex.presentation.adapters.PokedexAdapter
 import com.ctw.ctwpokedex.presentation.viewmodel.PokedexViewmodel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PokedexActivity : AppCompatActivity() {
 
     private lateinit var pokedexRecyclerView: RecyclerView
@@ -76,19 +78,21 @@ class PokedexActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        viewModel.pokedexLiveData.observe(this, {
-            when(it) {
+        viewModel.pokedexLiveData.observe(this) {
+            when (it) {
                 is UiState.Display -> {
                     progressBar.visibility = View.GONE
                     errorView.visibility = View.GONE
                     pokedexRecyclerView.visibility = View.VISIBLE
                     pokedexAdapter.submitList(it.data)
                 }
+
                 is UiState.Error -> {
                     progressBar.visibility = View.GONE
                     errorView.visibility = View.VISIBLE
                     errorTextView.text = it.message
                 }
+
                 UiState.Loading -> {
                     pokedexRecyclerView.visibility = View.GONE
                     errorView.visibility = View.GONE
@@ -97,7 +101,7 @@ class PokedexActivity : AppCompatActivity() {
 
                 else -> {}
             }
-        })
+        }
         viewModel.fetchPokedex()
     }
 

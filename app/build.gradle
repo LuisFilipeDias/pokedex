@@ -121,5 +121,6 @@ dependencies {
     testImplementation "com.google.dagger:hilt-android-testing:2.50"  // Hilt for local unit tests
     kaptAndroidTest "com.google.dagger:hilt-compiler:2.50"  // Hilt compiler for test annotation processing
 
-
+    // Logs
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 }

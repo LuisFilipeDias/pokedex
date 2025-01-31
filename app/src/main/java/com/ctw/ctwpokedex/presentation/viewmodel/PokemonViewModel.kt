@@ -7,10 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.ctw.ctwpokedex.data.models.Pokemon
 import com.ctw.ctwpokedex.domain.usecases.PokemonUseCase
 import com.ctw.ctwpokedex.presentation.UiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
-class PokemonViewModel(
-    private val pokemonUseCase: PokemonUseCase = PokemonUseCase()
+@HiltViewModel
+class PokemonViewModel @Inject constructor(
+    private val pokemonUseCase: PokemonUseCase
 ) : ViewModel() {
 
     private val _pokemonLiveData = MutableLiveData<UiState<Pokemon>>()
@@ -20,10 +24,11 @@ class PokemonViewModel(
     fun getPokemon(pokemonName: String) {
         _pokemonLiveData.value = UiState.Loading
         viewModelScope.launch {
-            try {
+            kotlin.runCatching {
                 val pokemon = pokemonUseCase.getPokemon(pokemonName)
                 _pokemonLiveData.value = UiState.Display(pokemon)
-            } catch (ex: Exception) {
+            }.onFailure {
+                Timber.i("Failed to get Pokemon due to $it")
                 _pokemonLiveData.value = UiState.Error(message = "Your Pokemon is not available right now...")
             }
         }

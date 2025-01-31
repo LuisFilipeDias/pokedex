@@ -7,10 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.ctw.ctwpokedex.data.models.PokedexItem
 import com.ctw.ctwpokedex.domain.usecases.PokedexUseCase
 import com.ctw.ctwpokedex.presentation.UiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PokedexViewmodel(
-    private val pokedexUseCase: PokedexUseCase = PokedexUseCase()
+@HiltViewModel
+class PokedexViewmodel @Inject constructor(
+    private val pokedexUseCase: PokedexUseCase
 ) : ViewModel() {
 
     private val _pokedexLiveData = MutableLiveData<UiState<List<PokedexItem>>>()
@@ -20,15 +23,16 @@ class PokedexViewmodel(
     fun fetchPokedex() {
         viewModelScope.launch {
             _pokedexLiveData.value = UiState.Loading
-            try {
+            runCatching {
                 val pokemons = pokedexUseCase.getPokemons()
-                if(pokemons.isEmpty()) {
+                if (pokemons.isEmpty()) {
                     _pokedexLiveData.value = UiState.Error(message = "No pokemons were found.")
                 } else {
                     _pokedexLiveData.value = UiState.Display(pokemons)
                 }
-            } catch (ex: Exception) {
-                _pokedexLiveData.value = UiState.Error(message = "We were unable to get Pokedex data at the moment")
+            }.onFailure {
+                _pokedexLiveData.value =
+                    UiState.Error(message = "We were unable to get Pokedex data at the moment. Exception $it")
             }
         }
     }

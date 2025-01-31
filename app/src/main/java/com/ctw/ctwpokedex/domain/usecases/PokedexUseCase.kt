@@ -4,8 +4,11 @@ import com.ctw.ctwpokedex.data.models.PokedexItem
 import com.ctw.ctwpokedex.data.repository.PokedexRepositoryImpl
 import com.ctw.ctwpokedex.domain.repositories.PokedexRepository
 import io.reactivex.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PokedexUseCase(private val repository: PokedexRepository = PokedexRepositoryImpl()) {
+@Singleton
+class PokedexUseCase @Inject constructor(private val repository: PokedexRepository) {
 
     suspend fun getPokemons(): List<PokedexItem> = repository.getPokemons()
 }

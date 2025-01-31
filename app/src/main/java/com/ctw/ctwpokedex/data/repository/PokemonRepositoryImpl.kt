@@ -1,21 +1,27 @@
 package com.ctw.ctwpokedex.data.repository
 
-import com.ctw.ctwpokedex.PokedexApplication
 import com.ctw.ctwpokedex.data.PokedexApi
-import com.ctw.ctwpokedex.data.RetrofitModule
 import com.ctw.ctwpokedex.data.dao.PokemonDao
 import com.ctw.ctwpokedex.data.models.Pokemon
+import com.ctw.ctwpokedex.di.IoDispatcher
 import com.ctw.ctwpokedex.domain.repositories.PokemonRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PokemonRepositoryImpl(
-    private val api: PokedexApi = RetrofitModule().pokedexApi,
-    private val pokemonDao: PokemonDao = PokedexApplication.pokedexDatabase.pokemonDao()
+class PokemonRepositoryImpl @Inject constructor(
+    private val pokedexApi: PokedexApi,
+    private val pokemonDao: PokemonDao,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ): PokemonRepository {
 
     override suspend fun getPokemon(pokemonName: String): Pokemon {
         return try {
-            val pokemon = api.getPokemon(pokemonName)
-            pokemonDao.insertPokemon(pokemon)
+            val pokemon = pokedexApi.getPokemon(pokemonName)
+            CoroutineScope(dispatcher).launch {
+                pokemonDao.insertPokemon(pokemon)
+            }
             pokemon
         } catch (ex: Exception) {
             pokemonDao.getPokemonByName(pokemonName)

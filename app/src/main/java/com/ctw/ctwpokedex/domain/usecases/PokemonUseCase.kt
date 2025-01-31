@@ -1,11 +1,10 @@
 package com.ctw.ctwpokedex.domain.usecases
 
 import com.ctw.ctwpokedex.data.models.Pokemon
-import com.ctw.ctwpokedex.data.repository.PokemonRepositoryImpl
 import com.ctw.ctwpokedex.domain.repositories.PokemonRepository
-import io.reactivex.Single
+import javax.inject.Inject
 
-class PokemonUseCase(private val repository: PokemonRepository = PokemonRepositoryImpl()) {
+class PokemonUseCase @Inject constructor(private val repository: PokemonRepository) {
 
     suspend fun getPokemon(pokemonName: String): Pokemon = repository.getPokemon(pokemonName)
 }

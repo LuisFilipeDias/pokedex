@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.room.Room
 import com.ctw.ctwpokedex.data.database.PokedexDatabase
+import com.ctw.ctwpokedex.di.DispatcherModule
 import com.ctw.ctwpokedex.di.ProviderModule
 import dagger.BindsInstance
 import dagger.Component
@@ -11,7 +12,7 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ProviderModule::class])
+@Component(modules = [ProviderModule::class, DispatcherModule::class])
 interface PokedexComponent {
     fun injectApplication(application: PokedexApplication)
 

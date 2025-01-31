@@ -1,11 +1,11 @@
 package com.ctw.ctwpokedex.presentation.activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.ctw.ctwpokedex.R
+import com.ctw.ctwpokedex.helpers.openPokedexActivity
 import com.ctw.ctwpokedex.presentation.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,14 +22,11 @@ class OnboardingActivity : AppCompatActivity() {
         } else {
             setContentView(R.layout.onboarding_activity)
             findViewById<Button>(R.id.button_start).setOnClickListener {
-                onboardingViewModel.setKeyAccessed()
+                onboardingViewModel.setUserLoggedIn()
                 navigateToPokedex()
             }
         }
     }
 
-    private fun navigateToPokedex() {
-        startActivity(Intent(this, PokedexActivity::class.java))
-    }
-
+    private fun navigateToPokedex() = this.openPokedexActivity()
 }

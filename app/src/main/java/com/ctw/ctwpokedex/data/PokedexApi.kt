@@ -2,7 +2,6 @@ package com.ctw.ctwpokedex.data
 
 import com.ctw.ctwpokedex.data.models.PokedexItems
 import com.ctw.ctwpokedex.data.models.Pokemon
-import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 
