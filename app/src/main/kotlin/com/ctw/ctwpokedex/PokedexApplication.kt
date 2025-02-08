@@ -12,7 +12,7 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ProviderModule::class, DispatcherModule::class])
+@Component(modules = [DispatcherModule::class])
 interface PokedexComponent {
     fun injectApplication(application: PokedexApplication)
 
