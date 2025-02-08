@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.ctw.ctwpokedex.R
 import com.ctw.ctwpokedex.presentation.UiState
 import com.ctw.ctwpokedex.presentation.adapters.PokedexAdapter
-import com.ctw.ctwpokedex.presentation.viewmodel.PokedexViewmodel
+import com.ctw.ctwpokedex.presentation.viewmodel.PokedexViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,7 +27,7 @@ class PokedexActivity : AppCompatActivity() {
     private lateinit var errorTextView: TextView
     private lateinit var retryButton: Button
 
-    private val viewModel: PokedexViewmodel by viewModels()
+    private val viewModel: PokedexViewModel by viewModels()
 
     private val clickListener = object : PokedexClickListener {
         override fun click(pokemonName: String, url: String) {

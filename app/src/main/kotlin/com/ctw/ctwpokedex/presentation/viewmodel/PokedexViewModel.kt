@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PokedexViewmodel @Inject constructor(
+class PokedexViewModel @Inject constructor(
     private val pokedexUseCase: PokedexUseCase
 ) : ViewModel() {
 
