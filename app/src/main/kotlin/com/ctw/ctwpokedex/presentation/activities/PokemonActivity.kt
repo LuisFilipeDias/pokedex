@@ -55,7 +55,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PokemonActivity : AppCompatActivity() {
 
-    private var pokemonName: String = ""
+    private var pokemonName: String = "defaultPoke"
     private lateinit var pokemonImage: ImageView
     private lateinit var pokemonHeight: TextView
     private lateinit var pokemonWeight: TextView
@@ -68,7 +68,7 @@ class PokemonActivity : AppCompatActivity() {
     private lateinit var pokemonNameExtra: String
     private lateinit var pokemonUrlExtra: String
 
-    private val viewModel: PokemonViewModel by viewModels()
+    val viewModel: PokemonViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

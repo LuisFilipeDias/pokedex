@@ -20,7 +20,7 @@ class PokemonViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _pokemonLiveData = MutableLiveData<UiState<Pokemon>>()
-    val pokemonLiveData: LiveData<UiState<Pokemon>>
+    val pokemonLiveData: MutableLiveData<UiState<Pokemon>>
         get() = _pokemonLiveData
 
     fun getPokemon(pokemonName: String) {
